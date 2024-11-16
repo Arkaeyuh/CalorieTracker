@@ -1,14 +1,23 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from dotenv import load_dotenv, find_dotenv
+import os
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
 
+load_dotenv()
+
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'secret-key' 
+    SECRET_KEY = os.getenv('SECRET_KEY')
+    FOODDATA_API_KEY = os.getenv('FOODDATA_API_KEY')
+    app.config['SECRET_KEY'] = SECRET_KEY
+    # print(SECRET_KEY)
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    app.config['FOODDATA_API_KEY'] = FOODDATA_API_KEY
+    # print(FOODDATA_API_KEY)
     db.init_app(app)
     
     
